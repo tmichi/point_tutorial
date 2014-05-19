@@ -13,7 +13,7 @@ External libraries
 
 CMake (http://www.cmake.org) is used to build files ( However you do not have to instll it if you create build files manually). 
 
-Program files
+Programs
 -------------
 - sample : a sample program for reading and rendering point clouds. type sample data/point.xyz to show example.
 - kinect : a sample program for scanning scene by Microsoft Kinect. type [SPACE] key to export point set as "result.xyz"

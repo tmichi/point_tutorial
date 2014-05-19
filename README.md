@@ -26,4 +26,4 @@ Assignments to students
 
 Contact
 -------
-Takashi Michikawa ( michikawa@acm.org) 
+Takashi Michikawa ( michikawa at acm dot org) 

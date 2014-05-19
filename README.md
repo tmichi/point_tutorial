@@ -21,12 +21,11 @@ Program files
 
 Assignments to students 
 -----------------------
-
- - Estimate the normal vector of each point by using covariance matrix described in Surface reconstruction paper by [Hoppe93].
+ - Estimate the normal vector of each point by using covariance matrix described in Surface reconstruction paper by (Hoppe93).
  - Extract planes by RANSAC method. 
- - Merge two point clouds by ICP algorithm [Besl92].
- 
- 
+ - Merge two point clouds by ICP algorithm (Besl92).
+ -
+
  Contact
  -------
  Takashi Michikawa ( michikawa@acm.org) 

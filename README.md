@@ -11,7 +11,7 @@ External libraries
 - Windows Kinect SDK
 
 
-We use CMake (www.cmake.org) to build files.
+CMake (http://www.cmake.org) is used to build files ( However you do not have to instll it if you create build files manually). 
 
 Program files
 -------------

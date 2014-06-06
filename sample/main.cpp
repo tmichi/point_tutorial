@@ -42,7 +42,7 @@ int main( int argc, char** argv )
 		points.push_back( p );
 	}
 	Kdtree< IndexedVector<Eigen::Vector3d> > kdtree(points);
-	std::list<IndexedVector<Eigen::Vector3d> > result;
+	std::vector<IndexedVector<Eigen::Vector3d> > result;
 	const int num = 100;
 
 	Eigen::Vector3d v = cloud.getPoint(2050);
@@ -50,10 +50,8 @@ int main( int argc, char** argv )
 
 	kdtree.find(trg, num, result, 0.001);
 
-	std::list<IndexedVector<Eigen::Vector3d> >::iterator iter = result.begin() ; // ç≈Ç‡ãﬂÇ¢ì_
-	for ( int i = 0 ; i < num ; i++ ) {
-		isNear[iter->id()] = true;
-		++iter;
+        for(int i = 0 ; i < static_cast<int>(result.size()) ; i ++ ) {
+		isNear[result[i].id()] = true;
 	}
 
 

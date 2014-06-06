@@ -1,7 +1,7 @@
 /**
- * @file Kdtree.hpp
- * @author Takashi Michikawa (RCAST, The University of Tokyo)
- */
+* @file Kdtree.hpp
+* @author Takashi Michikawa (RCAST, The University of Tokyo)
+*/
 #ifndef MI_KDTREE_HPP
 #define MI_KDTREE_HPP 1
 
@@ -13,19 +13,19 @@
 
 
 /**
- * @class Kdtree Kdtree.hpp "mi/Kdtree.hpp"
- * @note You can integrate with any own vector types, but it must have  following methods:
- * @li T::operator[](int); to access each coordinate value.
- * @li T::T(const T& d);
- * @li T::copy( const T& d) copying entity of d.
- */
+* @class Kdtree Kdtree.hpp "mi/Kdtree.hpp"
+* @note You can integrate with any own vector types, but it must have  following methods:
+* @li T::operator[](int); to access each coordinate value.
+* @li T::T(const T& d);
+* @li T::copy( const T& d) copying entity of d.
+*/
 template <typename T, size_t Dim = 3>
 class Kdtree
 {
 private:
         /**
-         * @class node in kdtree
-         */
+        * @class node in kdtree
+        */
 
         class Node
         {
@@ -220,6 +220,16 @@ public:
                 return this->build ( point, numMaxElementsPerNode );
         }
 
+        void find ( const T p, const double radius, std::vector<T>& result, bool isSorted = false )
+        {
+                std::list<T> node;
+                this->find(p, radius, node, isSorted);
+                result.clear();
+                result.insert(result.end(), node.begin(), node.end());
+                return;
+        }
+
+
         void find ( const T p, const double radius, std::list<T>& node, bool isSorted = false )
         {
                 node.clear();
@@ -228,8 +238,9 @@ public:
                 return;
         }
 
-        void find ( const T p, const size_t num, std::list<T>& node, const double radius = 0.1 )
+        void find ( const T p, const size_t num, std::vector<T>& result, const double radius = 0.1 )
         {
+                std::list<T> node;
                 double r = ( radius <= 0 ) ? 0.1 : radius;
                 const double base = std::pow ( static_cast<double> ( num ), 1.0/3.0 );
                 node.clear();
@@ -245,6 +256,8 @@ public:
                         }
                         node.sort ( less_vec_length ( p ) );
                         node.resize ( num );
+                        result.clear();
+                        result.insert(result.end(), node.begin(), node.end());
                 }
                 return;
         }
@@ -273,9 +286,9 @@ public:
         }
 private:
         /**
-         * @class less_vec_length
-         * @brief functor class for comparing two vector used in Kdtree.
-         */
+        * @class less_vec_length
+        * @brief functor class for comparing two vector used in Kdtree.
+        */
         class less_vec_length
         {
         private:
@@ -302,42 +315,42 @@ template <typename T, size_t Dim = 3>
 class IndexedVector : public T
 {
 private:
-int _id;
+        int _id;
 public:
 
-IndexedVector ( const T &v = T(), const int id = -1) : T ( v ), _id(id)
-{
-	return;
-}
+        IndexedVector ( const T &v = T(), const int id = -1) : T ( v ), _id(id)
+        {
+                return;
+        }
 
-IndexedVector ( const IndexedVector<T>& that )
-{
-	this->copy ( that );
-	return;
-}
+        IndexedVector ( const IndexedVector<T>& that )
+        {
+                this->copy ( that );
+                return;
+        }
 
-IndexedVector& operator = ( const IndexedVector<T>& that )
-{
-	this->copy ( that );
-	return *this;
-}
+        IndexedVector& operator = ( const IndexedVector<T>& that )
+        {
+                this->copy ( that );
+                return *this;
+        }
         /**
-         * @brief get id of the point.
-         * @return ID of the point.
-         */
+        * @brief get id of the point.
+        * @return ID of the point.
+        */
         int id ( void ) const
-{
-	return this->_id;
-}
+        {
+                return this->_id;
+        }
 protected:
-void copy ( const IndexedVector<T>& that )
-{
-	for( int i = 0 ; i < Dim ; i++ ) {
-		this->operator[]( i ) = that.operator[]( i );
-	}
-	this->_id = that._id;
-	return;
-}
+        void copy ( const IndexedVector<T>& that )
+        {
+                for( int i = 0 ; i < Dim ; i++ ) {
+                        this->operator[]( i ) = that.operator[]( i );
+                }
+                this->_id = that._id;
+                return;
+        }
 };//IndexedVector
 
 #endif// MI_KDTREE_HPP

@@ -18,7 +18,6 @@
 #include "Camera.h"
 #include "Window.h"
 #include "PointCloud.h"
-#include "Kdtree.h"
 #include "KinectWrapper.h"
 
 void initGL( void );

@@ -1,6 +1,6 @@
 /**
 * @file Kdtree.hpp
-* @author Takashi Michikawa (RCAST, The University of Tokyo)
+* @author Takashi Michikawa <michikawa@acm.org>
 */
 #ifndef MI_KDTREE_HPP
 #define MI_KDTREE_HPP 1
@@ -11,14 +11,6 @@
 #include <list>
 #include <algorithm>
 
-
-/**
-* @class Kdtree Kdtree.hpp "mi/Kdtree.hpp"
-* @note You can integrate with any own vector types, but it must have  following methods:
-* @li T::operator[](int); to access each coordinate value.
-* @li T::T(const T& d);
-* @li T::copy( const T& d) copying entity of d.
-*/
 template <typename T, size_t Dim = 3>
 class Kdtree
 {
@@ -219,18 +211,16 @@ public:
                 this->_parent.getAll ( point );
                 return this->build ( point, numMaxElementsPerNode );
         }
-
-        void find ( const T p, const double radius, std::vector<T>& result, bool isSorted = false )
-        {
-                std::list<T> node;
-                this->find(p, radius, node, isSorted);
-                result.clear();
-                result.insert(result.end(), node.begin(), node.end());
+        void find ( const T& p, const double radius, std::vector<T>& node, bool isSorted = false ) {
+                std::list<T> tmp;
+                this->find(p, radius, tmp, isSorted);
+                node.clear();
+                node.insert(node.end(), tmp.begin(), tmp.end());
                 return;
         }
 
 
-        void find ( const T p, const double radius, std::list<T>& node, bool isSorted = false )
+        void find ( const T& p, const double radius, std::list<T>& node, bool isSorted = false )
         {
                 node.clear();
                 this->_parent.find ( p, radius, node );
@@ -238,9 +228,17 @@ public:
                 return;
         }
 
-        void find ( const T p, const size_t num, std::vector<T>& result, const double radius = 0.1 )
+        void find( const T& p, const size_t num, std::vector<T>& node, const double radius = 0.1 ) {
+                std::list<T> tmp;
+                this->find(p, num, tmp, radius);
+                node.clear();
+                node.insert(node.end(), tmp.begin(), tmp.end());
+                return;
+        }
+
+
+        void find ( const T& p, const size_t num, std::list<T>& node, const double radius = 0.1 )
         {
-                std::list<T> node;
                 double r = ( radius <= 0 ) ? 0.1 : radius;
                 const double base = std::pow ( static_cast<double> ( num ), 1.0/3.0 );
                 node.clear();
@@ -256,8 +254,6 @@ public:
                         }
                         node.sort ( less_vec_length ( p ) );
                         node.resize ( num );
-                        result.clear();
-                        result.insert(result.end(), node.begin(), node.end());
                 }
                 return;
         }

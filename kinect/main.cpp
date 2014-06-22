@@ -3,6 +3,7 @@
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <gl/GLU.h>
+
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
@@ -18,7 +19,9 @@
 #include "Camera.h"
 #include "Window.h"
 #include "PointCloud.h"
+#include "Kdtree.h"
 #include "KinectWrapper.h"
+#include "Light.h"
 
 void initGL( void );
 int main( int argc, char** argv )
@@ -42,7 +45,11 @@ int main( int argc, char** argv )
         if ( !win ) return -1;
         GLFWwindow* window = win.getWindow();
 
-        initGL();
+        glEnable( GL_DEPTH_TEST );
+        glClearColor( 0,0,1,1 );
+        glPointSize( 2.0 );
+        Light light0(GL_LIGHT0);
+
         while ( !glfwWindowShouldClose( window ) ) {
 		std::vector<Eigen::Vector3d> points;
 		wrapper.getPointSet(points);
@@ -85,42 +92,13 @@ int main( int argc, char** argv )
                         camera.rotate( oldx, oldy, newx, newy );
                 }
 
-		if ( glfwGetKey ( window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
-			std::cerr<<"point set is saving to result.xyz ...";
-			std::ofstream fout("result.xyz");
-			fout<<points.size()<<std::endl;
-		for ( int i = 0 ; i < (int) points.size(); ++i ) {
-			fout<<points[i].x()<<" "<<points[i].y()<<" "<<points[i].z()<<std::endl;
-		}
-	
-			fout.close();
-
-			std::cerr<<"done"<<std::endl;
-		}
+                if ( glfwGetKey ( window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
+                        std::cerr<<"point set is saving to result.xyz ...";
+                        std::stringstream ss;
+                        ss<<__DATE__<<".xyz";
+                        cloud.writeXyz(ss.str().c_str());
+                        std::cerr<<"done"<<std::endl;
+                }
         }
         return 0;
-}
-
-void initGL( void )
-{
-        glEnable( GL_DEPTH_TEST );
-        glClearColor( 0,0,1,1 );
-        glPointSize( 2.0 );
-
-        // ƒ‰ƒCƒg
-        /*
-            static float light0_ambient[] =  {0.1f, 0.1f, 0.1f, 1.0f};
-            static float light0_diffuse[] =  {1.0f, 1.0f, 1.0f, 0.0f};
-            static float light0_position[] = {0.0f, 0.0f,1000.0f, 0.0f};
-            static float light0_specular[] = {0.4f, 0.4f, 0.4f, 1.0f};
-
-            glLightfv( GL_LIGHT0, GL_AMBIENT, light0_ambient );
-            glLightfv( GL_LIGHT0, GL_DIFFUSE, light0_diffuse );
-            glLightfv( GL_LIGHT0, GL_SPECULAR, light0_specular );
-            glLightfv( GL_LIGHT0, GL_POSITION, light0_position );
-            glLightModelf( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
-
-            glEnable( GL_LIGHT0 );
-            glEnable( GL_LIGHTING );
-        */
 }

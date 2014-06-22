@@ -104,7 +104,7 @@ public :
 		return true;
 	}
 
-	void getWindowSize( int &w , int &h) {
+	void getWindowSize( int& w , int& h) {
 		unsigned long refWidth = 0;
 		unsigned long refHeight = 0;
 		NuiImageResolutionToSize( resolution, refWidth, refHeight );

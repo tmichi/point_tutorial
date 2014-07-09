@@ -1,8 +1,6 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
 PROJECT(point_tutorial)
-
-
 if(UNIX)
 
 ADD_DEFINITIONS(-g -O3 -Wall)
@@ -12,7 +10,7 @@ endif(UNIX)
 
 if(APPLE)
 	LINK_DIRECTORIES(/usr/local/lib)
-	INCLUDE_DIRECTORIES(/usr/local/include /usr/local/include/eigen3)
+	INCLUDE_DIRECTORIES(/usr/local/include /usr/local/include/eigen3 include)
 elseif(WIN32)
 	INCLUDE_DIRECTORIES(include )
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64bit system

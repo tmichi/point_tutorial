@@ -3,7 +3,6 @@
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <gl/GLU.h>
-
 #pragma comment(lib, "glfw3dll.lib")
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")

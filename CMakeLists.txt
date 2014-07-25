@@ -23,6 +23,7 @@ elseif(WIN32)
 endif()
 
 ADD_SUBDIRECTORY(include)
-
 ADD_SUBDIRECTORY(tips)
 ADD_SUBDIRECTORY(sample)
+ADD_SUBDIRECTORY(answer)
+

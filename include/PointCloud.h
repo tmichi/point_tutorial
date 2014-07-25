@@ -139,7 +139,7 @@ public:
                         double x, y, z;
                         fin >>x>>y>>z;
                         if ( fin.eof() ) break;
-                        int id = this->addPoint( Eigen::Vector3d( x,y,z ) );
+			this->addPoint( Eigen::Vector3d( x,y,z ) );
                 }
                 std::cerr<<this->getNumPoints()<<" points read."<<std::endl;
                 fin.close();

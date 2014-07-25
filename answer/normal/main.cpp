@@ -22,18 +22,12 @@
 #include <Kdtree.h>
 #include <Light.h>
 
-Eigen::Vector3d getCenter( const std::vector<Eigen::Vector3d>& p )  {
-        Eigen::Vector3d c;
-        c.setZero();
-        //: TODO add code here
-        return c;
-}
-
-Eigen::Vector3d estimate_normal_at(const Eigen::Vector3d& p, Kdtree<Eigen::Vector3d>& kdtree, const int num ) {
+#include "normal.h"
+Eigen::Vector3d estimate_random_normal_at(const Eigen::Vector3d& p, Kdtree<Eigen::Vector3d>& kdtree, const int num ) {
         return Eigen::Vector3d::Random().normalized(); //ランダムな法線を返す
 }
 
-void estimateNormal( PointCloud& cloud, const int num ) {
+void estimateRandomNormal( PointCloud& cloud, const int num ) {
         std::cerr<<"Estimating normal vectors ... ";
         std::vector<Eigen::Vector3d> pnts;
         for( int i = 0 ; i < cloud.getNumPoints() ; ++i ) {
@@ -42,7 +36,7 @@ void estimateNormal( PointCloud& cloud, const int num ) {
         Kdtree<Eigen::Vector3d> kdtree( pnts );
 	
         for( int i = 0 ; i < cloud.getNumPoints() ; ++i ) {
-                const Eigen::Vector3d n = estimate_normal_at( cloud.getPoint( i ), kdtree, num);
+                const Eigen::Vector3d n = estimate_random_normal_at( cloud.getPoint( i ), kdtree, num);
                 cloud.setNormal( i, n );
         }
         std::cerr<<"done."<<std::endl;
@@ -54,7 +48,8 @@ int main( int argc, char** argv )
                 std::cerr<<"Usage : "<<argv[0]<<" input.xyz"<<std::endl;
                 return -1;
         }
-        std::cerr<<"Press 'n' to enable/disable lighting."<<std::endl;
+        std::cerr<<"Press 'l' to enable/disable lighting."<<std::endl;
+        std::cerr<<"Press 'n' to compute normal."<<std::endl;
         std::cerr<<"Press 'v' to visualize normal vector."<<std::endl;
 
         //データ読み込み
@@ -64,8 +59,7 @@ int main( int argc, char** argv )
                 std::cerr<<filename<<" read failed."<<std::endl;
                 return -1;
         }
-        //TODO この関数の中身を作る
-        estimateNormal(cloud, 30);
+	estimateRandomNormal(cloud, 10);
 
         Eigen::Vector3d bmin, bmax;
         cloud.getBoundingBox( bmin, bmax );
@@ -155,7 +149,11 @@ int main( int argc, char** argv )
                 if ( glfwGetMouseButton( window, GLFW_MOUSE_BUTTON_1 ) != GLFW_RELEASE ) {
                         camera.rotate( oldx, oldy, newx, newy );
                 }
-                if ( ::glfwGetKey(window, GLFW_KEY_N ) == GLFW_PRESS ) {
+		if ( ::glfwGetKey(window, GLFW_KEY_N ) == GLFW_PRESS ) {
+			std::cerr<<"Computing normal"<<std::endl;
+			estimateNormal(cloud, 30);			
+		}
+                if ( ::glfwGetKey(window, GLFW_KEY_L ) == GLFW_PRESS ) {
                         toggleLighting = 1 - toggleLighting;
                         std::cerr<<"lighting : "<<toggleLighting<<std::endl;
                 }

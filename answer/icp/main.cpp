@@ -82,7 +82,7 @@ int main( int argc, char** argv )
                 glLoadIdentity();
                 gluLookAt( eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z() );
 
-                Eigen::Vector3d ray = center-eye;
+                //Eigen::Vector3d ray = center-eye;
 
                 //オブジェクトの描画
                 glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );

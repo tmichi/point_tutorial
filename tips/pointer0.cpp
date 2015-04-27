@@ -33,7 +33,6 @@ void multiple_return_values ( int* min_value, int* max_value ) {
         }
         std::cerr<<"min_value :"<<*min_value<<std::endl;
         std::cerr<<"max_value :"<<*max_value<<std::endl;
-
 }
 
 int main ( int argc, char** argv ) {

@@ -18,7 +18,9 @@ Programs
 - sample : a sample program for reading and rendering point clouds. type sample data/point.xyz to show example.
 - kinect : a sample program for scanning scene by Microsoft Kinect. type [SPACE] key to export point set as "result.xyz"
 - tips : 
-- answer : 
+- normal : 法線の向きを推定するプログラム
+- ransac : 簡単なRANSACプログラム
+- icp    : ICPプログラム
 
 Contact
 -------

@@ -1,18 +1,22 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
-
 PROJECT(point_tutorial)
 if(UNIX)
-
 ADD_DEFINITIONS(-g -O3 -Wall)
-
 endif(UNIX)
 
-
 if(APPLE)
+	find_package(PkgConfig REQUIRED)
+	pkg_search_module(GLFW REQUIRED glfw3)
+	FIND_LIBRARY(OpenGL_LIBRARY OpenGL )
 	LINK_DIRECTORIES(/usr/local/lib)
-	INCLUDE_DIRECTORIES(/usr/local/include /usr/local/include/eigen3 include)
+	ADD_DEFINITIONS(-g -O3 -Wall)  
+	INCLUDE_DIRECTORIES (/System/Library/Frameworks ${PROJECT_SOURCE_DIR}/include /usr/local/include /usr/local/include/eigen3 )
+	MARK_AS_ADVANCED (OpenGL_LIBRARY)
+	SET(EXTRA_LIBS ${OpenGL_LIBRARY})
 elseif(WIN32)
 	INCLUDE_DIRECTORIES(include )
+   	set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
+        set(CMAKE_BUILD_TYPE Release)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64bit system
 		LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/lib/x64)
 	else()
@@ -25,5 +29,8 @@ endif()
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(tips)
 ADD_SUBDIRECTORY(sample)
-ADD_SUBDIRECTORY(answer)
+ADD_SUBDIRECTORY(normal)
+ADD_SUBDIRECTORY(ransac)
+ADD_SUBDIRECTORY(icp)
+
 

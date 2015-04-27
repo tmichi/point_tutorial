@@ -11,7 +11,7 @@ point_tutorial
 - Windows Kinect SDK
 
 
-コンパイルにはCMake (http://www.cmake.org)をはには使っていますが，なくてもなんとかなります
+コンパイルにはCMake (http://www.cmake.org)を使っていますが，なくても自力でライブラリのリンクをつけられたらなんとかなります.
 
 Programs
 -------------
